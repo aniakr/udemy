@@ -1,10 +1,12 @@
+# my version of folium map
+
 import folium
 from pandas import DataFrame
 import pandas
 from geopy.geocoders import Nominatim
 
 nom=Nominatim()
-df_volcanoes=pandas.read_csv("C:/Users/Ania/PycharmProjects/test1/udemy/APP2_MAP/Volcanoes_USA.txt")
+df_volcanoes=pandas.read_csv("Volcanoes_USA.txt")
 
 def volcano_color(elevation):
     if elevation <= 1500:
@@ -13,6 +15,8 @@ def volcano_color(elevation):
         return "orange"
     else:
         return "red"
+
+# for exercising purposes usage of two different methods:
 
 latitudes=df_volcanoes["LAT"].tolist()
 longitudes=list(df_volcanoes["LON"])
@@ -24,7 +28,7 @@ map=folium.Map(location=[38,-120],zoom_start=5)
 fgv=folium.FeatureGroup(name="Volcanoes")
 
 for lat, lon, name, elev in zip(latitudes,longitudes, names, elevations):
-    # popup1 = str(folium.Popup(html=name, parse_html=True))
+    # popup1 = str(folium.Popup(html=name, parse_html=True))+"\n" + str(elev)+" m" - this part is not working
     fgv.add_child(folium.CircleMarker(location=(lat,lon),radius=7,popup=str(elev)+ " m",
     fill=True,fill_color=volcano_color(elev), color="grey",fill_opacity=0.5))
 
@@ -34,7 +38,7 @@ for lat, lon, name, elev in zip(latitudes,longitudes, names, elevations):
 fgp=folium.FeatureGroup(name="Population")
 
 map.add_child(folium.GeoJson
-             (data=open("C:/Users/Ania/PycharmProjects/test1/udemy/APP2_MAP/world.json",'r',encoding='utf-8-sig').read(),
+             (data=open("world.json",'r',encoding='utf-8-sig').read(),
               style_function=lambda x:{'fillColor':'green' if x['properties']['POP2005']<10000000 else 'orange'
               if 10000000 <= x['properties']['POP2005'] < 40000000 else 'red' }))
 
@@ -42,6 +46,4 @@ map.add_child(fgv)
 map.add_child(fgp)
 map.add_child(folium.LayerControl())
 
-map.save("C:/Users/Ania/PycharmProjects/test1/udemy/APP2_MAP/Map2.html")
-
-# nie działa jeszcze dodanie wysokosci i nazwy w jednym
+map.save("Map_volcanoes.html")
