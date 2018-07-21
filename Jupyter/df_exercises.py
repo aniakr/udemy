@@ -1,10 +1,7 @@
 from pandas import DataFrame
 import os
 import pandas
-
-
 print(os.listdir())
-
 
 df_own=pandas.DataFrame([[1,2,4],[56,1,0]],columns=["column1","column2","column3"])
 # df_csv=pandas.read_csv("supermarkets.csv")

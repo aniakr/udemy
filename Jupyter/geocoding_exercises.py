@@ -1,29 +1,7 @@
 from geopy.geocoders import Nominatim
 nom=Nominatim()
-
 from pandas import DataFrame
 import pandas
-
-# df_knajpy=pandas.read_excel("Knajpy.xlsx",sheetname="SALA")
-# df_knajpy["GEO"]=""
-#
-# print(nom.geocode(df_knajpy.loc[4,"Address"]).latitude)
-#
-# for i in range(0,df_knajpy.shape[0]):
-#     print(nom.geocode(df_knajpy.loc[i,"Address"]))
-#
-#
-#
-#
-# # for i in range(0,df_knajpy.shape[0]):
-# #     df_knajpy.loc[i,"GEO"]=nom.geocode(df_knajpy.loc[i,"Address"]).longitude
-#
-#
-#
-# geo=nom.geocode("Szlak 3/7, 31-161, Krakow")
-# geo.latitude
-# geo.longitude
-
 
 df_spr=pandas.read_csv("supermarkets.csv")
 df_spr["Latitude"] = ""
