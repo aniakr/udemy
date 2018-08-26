@@ -11,8 +11,13 @@
 # Delete an entry
 # Close the program
 
+# not yet completed
+
 from tkinter import *
-import bookstore_db
+from bookstore_db_OOP import Database
+
+database=Database("AK_bookstore.db")
+
 
 def get_selected_row(event):
     global selected_tuple
@@ -33,29 +38,29 @@ def get_selected_row(event):
 
 def view_command():
     Listbox1.delete(0,END)
-    for book in bookstore_db.view():
+    for book in database.view():
         Listbox1.insert(END, book)
 #
 def search_command():
     Listbox1.delete(0, END)
-    for book in bookstore_db.search(Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get()):
+    for book in database.search(Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get()):
         Listbox1.insert(END, book)
 
 def add_command():
     Listbox1.delete(0, END)
-    bookstore_db.insert(Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get())
+    database.insert(Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get())
     Listbox1.insert(END,(Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get()))
 
 def delete_command():
-    bookstore_db.deletion(selected_tuple[0])
+    database.deletion(selected_tuple[0])
     Listbox1.delete(0, END)
-    for book in bookstore_db.view():
+    for book in database.view():
         Listbox1.insert(END, book)
 
 def update_command():
-    bookstore_db.update(selected_tuple[0],Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get())
+    database.update(selected_tuple[0],Title_entry_value.get(),Author_entry_value.get(), Year_entry_value.get(),ISBN_entry_value.get())
     Listbox1.delete(0, END)
-    for book in bookstore_db.view():
+    for book in database.view():
         Listbox1.insert(END, book)
 
 
