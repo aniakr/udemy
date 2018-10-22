@@ -23,6 +23,7 @@ def get_selected_row(event):
         pass
 
 def submit():
+    print ('dupa')
     Listbox.insert(END,Name_entry_val.get(),
                    Activity_entry_val.get())
 
@@ -109,6 +110,6 @@ button_submit.grid(row=6, column=1)
 button_delete=Button(timesheet, text="Delete selected",bg="red", width=15, command=delete_command)
 button_delete.grid(row=7, column=1)
 # https://stackoverflow.com/questions/40504864/graded-combobox-menu-python-tkinter/41181375#41181375
-
+# https://stackoverflow.com/questions/17252096/change-optionmenu-based-on-what-is-selected-in-another-optionmenu/17252390
 
 timesheet.mainloop()
