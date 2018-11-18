@@ -18,6 +18,10 @@ class Timesheet(tk.Frame):
         hub_list=self.db.get_all_items('hub_name','hubs')
         hub_default=self.db.hub_default(current_user)
 
+
+        self.dict = {'EU': ['Anna Krach','JJ'],
+                     'Asia': ['Tommy', 'Rimba']}
+
         tk.Frame.__init__(self,*args,**kwargs)
         master.wm_title("Timesheet")
         master.geometry("400x600")
@@ -50,11 +54,6 @@ class Timesheet(tk.Frame):
         self.Entry_box.configure(yscrollcommand=yscroll.set)
         yscroll.configure(command=self.Entry_box.yview)
 
-        self.Name_entry_val = tk.StringVar()
-        self.Name_entry_val.set(*current_user)
-        Name_entry=tk.OptionMenu(master, self.Name_entry_val,*users_list)
-        Name_entry.grid(row=1, column=1, sticky=tk.W)
-
         self.Month_entry_val=tk.StringVar()
         self.Month_entry_val.set(Timesheet.current_month)
         Month_entry=tk.OptionMenu(master, self.Month_entry_val,*month_choice())
@@ -62,8 +61,15 @@ class Timesheet(tk.Frame):
 
         self.Hub_entry_val=tk.StringVar()
         self.Hub_entry_val.set(hub_default)
-        Hub_entry=tk.OptionMenu(master, self.Hub_entry_val,*hub_list)
-        Hub_entry.grid(row=1, column=3,sticky=tk.W)
+        self.Hub_entry=tk.OptionMenu(master, self.Hub_entry_val,*self.dict.keys())
+        self.Hub_entry.grid(row=1, column=3,sticky=tk.W)
+
+        names_default = self.dict[hub_default[0]]
+
+        self.Name_entry_val = tk.StringVar()
+        self.Name_entry_val.set(*current_user)
+        self.Name_entry=tk.OptionMenu(master, self.Name_entry_val,*names_default)
+        self.Name_entry.grid(row=1, column=1, sticky=tk.W)
 
         self.Year_entry_val=tk.StringVar()
         self.Year_entry_val.set(self.current_year)
@@ -84,6 +90,8 @@ class Timesheet(tk.Frame):
         button_delete=tk.Button(master, text="Delete selected",bg="red", width=15, command=self.delete_command)
         button_delete.grid(row=7, column=1)
 
+        self.Hub_entry_val.trace('w', self.update_options)
+
     def delete_command(self):
         print('deleting')
 
@@ -98,3 +106,10 @@ class Timesheet(tk.Frame):
         for entry in month_entry:
              self.Entry_box.insert(tk.END, entry)
 
+    def update_options(self, *args):
+        names = self.dict[self.Hub_entry_val.get()]
+        self.Name_entry_val.set(names[0])
+        menu = self.Name_entry['menu']
+        menu.delete(0, 'end')
+        for name in names:
+            menu.add_command(label=name, command=lambda person=name: self.Name_entry_val.set(person))
