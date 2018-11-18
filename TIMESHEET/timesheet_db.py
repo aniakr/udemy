@@ -53,6 +53,15 @@ class Database:
             all_users.append(item[0])
         return all_users
 
+    def get_all_users_depend(self,key):
+        self.curs.execute("SELECT u.F_Name FROM Users u INNER JOIN hubs h ON h.id=u.hub WHERE h.hub_name = %s",(key,))
+        users = self.curs.fetchall()
+        all_users=[]
+        for item in users:
+            all_users.append(item[0])
+        return all_users
+
+
     def hub_default(self,user):
         self.curs.execute("SELECT Hub_Name FROM Hubs h INNER JOIN users u ON h.id = u.hub WHERE u.F_Name = %s",(user,))
         hub = self.curs.fetchone()
@@ -66,6 +75,8 @@ class Database:
             all_items.append(item)
         return all_items
 
+
+
     def display_month(self, month, year):
         self.curs.execute("SELECT * FROM Timesheet_entries WHERE month=%s AND year=%s",(month,year))
         month_entry = self.curs.fetchall()
@@ -73,4 +84,11 @@ class Database:
         for item in month_entry:
             all_items.append(item)
         return all_items
+
+    def get_all(self):
+        self.curs.execute("SELECT * FROM Users")
+        users = self.curs.fetchall()
+        return users
+
+
 
