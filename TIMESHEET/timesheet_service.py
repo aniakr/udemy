@@ -1,5 +1,7 @@
 import datetime
+
 from TIMESHEET.timesheet_db import Database
+
 
 
 def month_choice():
@@ -16,5 +18,9 @@ def get_selected(event):
         selected_tuple = Listbox.get(index)
     else:
         pass
+
+def update_dropdown_user(hub_choice):
+    dependant_choice=Database.get_all_users_depend(hub_choice)
+    variable_b.set=dependant_choice[0]
 
 

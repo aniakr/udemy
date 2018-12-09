@@ -6,7 +6,7 @@ from TIMESHEET.timesheet_db import Database
 
 db=Database()
 
-# db.add_user("Karolina","Nowak","KNowak","EU")
+#db.add_user("Karolina Nowak","KNowak",1)
 
 root=tk.Tk()
 timesheet = Timesheet(root,db)

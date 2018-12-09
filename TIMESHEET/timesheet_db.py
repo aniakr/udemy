@@ -17,7 +17,8 @@ class Database:
             "CREATE TABLE IF NOT EXISTS Activities (id SERIAL, Activity TEXT, Hub INTEGER, Icap INTEGER)")
         self.curs.execute("CREATE TABLE IF NOT EXISTS ICAP (id INTEGER, ICAP_Name TEXT)")
         self.curs.execute(
-            "CREATE TABLE IF NOT EXISTS Timesheet_entries (id SERIAL PRIMARY KEY, F_Name VARCHAR(20), Activity TEXT, Month TEXT, Year TEXT, Icap INTEGER)")
+            "CREATE TABLE IF NOT EXISTS Timesheet_entries (id SERIAL PRIMARY KEY, F_Name VARCHAR(20), Activity TEXT, Month TEXT, Year TEXT, "
+            "Mandays REAL, Icap INTEGER, Comment VARCHAR(50))")
         self.connection.commit()
         if(self.init_test_data):
             self.populate_test_data()
@@ -31,8 +32,8 @@ class Database:
         self.curs.execute("INSERT INTO Activities (Activity,Hub,ICAP)  SELECT 'SOX',1,1 WHERE NOT EXISTS (SELECT * FROM Activities)")
         self.connection.commit()
 
-    def insert_entry(self, F_Name, Activity, Month,Year):
-        self.curs.execute("INSERT INTO  Timesheet_entries (F_Name, Activity, Month,Year) VALUES(%s,%s,%s,%s)", (F_Name, Activity, Month,Year))
+    def insert_entry(self, F_Name, Activity, Month,Year, Comment):
+        self.curs.execute("INSERT INTO  Timesheet_entries (F_Name, Activity, Month,Year, Comment) VALUES(%s,%s,%s,%s,%s)", (F_Name, Activity, Month,Year, Comment))
         self.connection.commit()
 
     def add_user(self, F_Name, Login, Hub):
@@ -70,15 +71,14 @@ class Database:
     def get_all_items(self,column,table):
         self.curs.execute(sql.SQL("SELECT {} FROM {}").format(sql.Identifier(column),sql.Identifier(table)))
         items = self.curs.fetchall()
-        all_items=[]
-        for item in items:
-            all_items.append(item)
-        return all_items
+        # all_items=[]
+        # for item in items:
+        #     all_items.append(item)
+        # return all_items
+        return items
 
-
-
-    def display_month(self, month, year):
-        self.curs.execute("SELECT * FROM Timesheet_entries WHERE month=%s AND year=%s",(month,year))
+    def display_month(self, month, year, user):
+        self.curs.execute("SELECT * FROM Timesheet_entries WHERE month=%s AND year=%s AND F_Name=%s",(month,year,user))
         month_entry = self.curs.fetchall()
         all_items=[]
         for item in month_entry:
@@ -90,5 +90,7 @@ class Database:
         users = self.curs.fetchall()
         return users
 
-
+    def delete_selected(self,ID_number):
+        self.curs.execute("DELETE FROM Timesheet_entries WHERE id=%s",(ID_number,))
+        self.connection.commit()
 
