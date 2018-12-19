@@ -1,9 +1,11 @@
 from unittest import TestCase
 
 from TIMESHEET.timesheet_db import Database
+from TIMESHEET.timesheet_service import mandays_validation2
 
 
 class TestDatabase(TestCase):
+
     db = Database()
 
     def test_user_from_login(self):
@@ -33,4 +35,8 @@ class TestDatabase(TestCase):
     def test_entry_set_to_be_displayed(self):
         items = self.db.display_month('October', '2018')
         self.assertEquals((13, 'Tommy Tommy', 'SOX', 'October', '2018', None), items)
+
+    def test_mandays_validation2(self):
+        result = mandays_validation2("12,3")
+        self.assertEqual(result, 0)
 

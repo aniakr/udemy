@@ -32,8 +32,8 @@ class Database:
         self.curs.execute("INSERT INTO Activities (Activity,Hub,ICAP)  SELECT 'SOX',1,1 WHERE NOT EXISTS (SELECT * FROM Activities)")
         self.connection.commit()
 
-    def insert_entry(self, F_Name, Activity, Month,Year, Comment):
-        self.curs.execute("INSERT INTO  Timesheet_entries (F_Name, Activity, Month,Year, Comment) VALUES(%s,%s,%s,%s,%s)", (F_Name, Activity, Month,Year, Comment))
+    def insert_entry(self, F_Name, Activity, Month,Year, Mandays, Comment):
+        self.curs.execute("INSERT INTO  Timesheet_entries (F_Name, Activity, Month,Year, Mandays, Comment) VALUES(%s,%s,%s,%s,%s,%s)", (F_Name, Activity, Month,Year, Mandays,Comment))
         self.connection.commit()
 
     def add_user(self, F_Name, Login, Hub):
