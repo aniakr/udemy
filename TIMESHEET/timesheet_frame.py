@@ -1,6 +1,6 @@
 import getpass
 import tkinter as tk
-from TIMESHEET.timesheet_service import month_choice
+from TIMESHEET.timesheet_service import month_choice, mandays_validation
 import datetime
 from TIMESHEET.timesheet_db import Database
 
@@ -103,7 +103,8 @@ class Timesheet(tk.Frame):
         self.db.delete_selected(id)
 
     def submit(self):
-        self.db.insert_entry(self.Name_entry_val.get(),self.Activity_entry_val.get(),self.Month_entry_val.get(),self.Year_entry_val.get(),self.Comment_entry_value.get())
+        mandays_validation(self.Mandays_entry_value.get())
+        self.db.insert_entry(self.Name_entry_val.get(),self.Activity_entry_val.get(),self.Month_entry_val.get(),self.Year_entry_val.get(),self.Mandays_entry_value.get(),self.Comment_entry_value.get())
         Date_label_L = tk.Label(self.master, text=self.Month_entry_val.get()+" "+self.Year_entry_val.get())
         Date_label_L.grid(row=8, column=1, sticky=tk.W)
         self.view_command()

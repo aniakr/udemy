@@ -113,3 +113,7 @@ button_delete.grid(row=7, column=1)
 # https://stackoverflow.com/questions/17252096/change-optionmenu-based-on-what-is-selected-in-another-optionmenu/17252390
 
 timesheet.mainloop()
+
+
+class Mandays_entry_value(object):
+    pass
