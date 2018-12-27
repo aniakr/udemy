@@ -5,10 +5,10 @@ from psycopg2 import sql
 
 
 class Database:
-    init_test_data = True;
-    def __init__(self):
-        self.connection = psycopg2.connect("dbname='database_python' user='postgres' password='adminsql' "
-                                           "host='localhost' port='5432'")
+    init_test_data = True
+
+    def __init__(self, db_name):
+        self.connection = psycopg2.connect("dbname="+ db_name + " user=postgres password=adminsql host=localhost port=5432")
         self.curs = self.connection.cursor()
         self.curs.execute(
             "CREATE TABLE IF NOT EXISTS Users (id SERIAL, F_Name VARCHAR(20), Login VARCHAR(8), Hub INTEGER)")
@@ -30,6 +30,8 @@ class Database:
         self.curs.execute("INSERT INTO Hubs(id,Hub_name)  SELECT 2,'AP' WHERE NOT EXISTS (SELECT * FROM hubs)")
         self.curs.execute("INSERT INTO Hubs(id,Hub_name)  SELECT 1,'EU' WHERE NOT EXISTS (SELECT * FROM hubs WHERE Hubs.id=1)")
         self.curs.execute("INSERT INTO Activities (Activity,Hub,ICAP)  SELECT 'SOX',1,1 WHERE NOT EXISTS (SELECT * FROM Activities)")
+        self.curs.execute(
+            "INSERT INTO  Timesheet_entries (F_Name, Activity, Month,Year, Mandays) SELECT 'Tommy Tommy','SOX','October','2018','5' WHERE NOT EXISTS (SELECT * FROM Timesheet_entries)")
         self.connection.commit()
 
     def insert_entry(self, F_Name, Activity, Month,Year, Mandays, Comment):
