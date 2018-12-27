@@ -1,15 +1,19 @@
 import getpass
 import tkinter as tk
-from TIMESHEET.timesheet_service import month_choice, mandays_validation
+
+from TIMESHEET.string_converter import string_converter
+from TIMESHEET.timesheet_service import month_choice
 import datetime
 from TIMESHEET.timesheet_db import Database
 
+converter = string_converter()
 
 class Timesheet(tk.Frame):
     Name_L = 1
     now = datetime.datetime.now()
     current_month = now.strftime("%B")
     current_year = now.year
+
 
     def __init__(self,master,database,*args,**kwargs):
         self.db=database
@@ -103,8 +107,8 @@ class Timesheet(tk.Frame):
         self.db.delete_selected(id)
 
     def submit(self):
-        mandays_validation(self.Mandays_entry_value.get())
-        self.db.insert_entry(self.Name_entry_val.get(),self.Activity_entry_val.get(),self.Month_entry_val.get(),self.Year_entry_val.get(),self.Mandays_entry_value.get(),self.Comment_entry_value.get())
+        Mandays=converter.convert_to_int(self.Mandays_entry_value.get())
+        self.db.insert_entry(self.Name_entry_val.get(),self.Activity_entry_val.get(),self.Month_entry_val.get(),self.Year_entry_val.get(),Mandays,self.Comment_entry_value.get())
         Date_label_L = tk.Label(self.master, text=self.Month_entry_val.get()+" "+self.Year_entry_val.get())
         Date_label_L.grid(row=8, column=1, sticky=tk.W)
         self.view_command()

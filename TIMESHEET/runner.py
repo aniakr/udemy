@@ -4,7 +4,7 @@ from TIMESHEET.timesheet_frame import Timesheet
 from TIMESHEET.timesheet_db import Database
 
 
-db=Database()
+db=Database('database_python')
 
 #db.add_user("Karolina Nowak","KNowak",1)
 
