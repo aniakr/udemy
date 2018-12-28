@@ -1,6 +1,6 @@
 import datetime
 from TIMESHEET.timesheet_db import Database
-
+import tkinter as tk
 
 def mandays_validation2(md_entry):
     new_mandays=""
@@ -38,6 +38,18 @@ def month_choice():
     for i in range(1, 13):
         choice.append(str(datetime.date(2008, i, 1).strftime('%B')))
     return choice
+
+NORM_FONT = ("Helvetica", 10)
+
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.wm_title("!")
+    label = tk.Label(popup, text=msg, font=NORM_FONT)
+    label.pack(side="top", fill="x", pady=10)
+    B1 = tk.Button(popup, text="Okay", command = popup.destroy)
+    B1.pack()
+    popup.mainloop()
+
 
 
 # def get_selected(event):
